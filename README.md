@@ -22,7 +22,7 @@ If it's just the customer changing their mind, that's not covered — that's the
 ## Why Blockchain
 I designed this so that neither side has to just trust the other person, or trust me as the person who built the app. To come up with this idea, I used a principle of smart contracts called trust-minimized — where the money sits in the contract, not with either person, and it only moves when the conditions are actually met. I was also inspired by Chainlink Automation, where actions only happen once certain requirements are met, without anyone needing to trigger it manually. Since this is a decentralized application, both the buyer and the seller can see the transaction — no one is kept in the dark or has to just take the other person's word for it.
 
-## Future Enhancements
+## Future Features
 - Chainlink Automation, so the payment release after the one-day window and the delivery deadline happens on its own, without anyone needing to trigger it manually.
 - A stronger version of delivery confirmation using real ID verification, not just a manual confirmation.
 
