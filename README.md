@@ -26,5 +26,3 @@ I designed this so that neither side has to just trust the other person, or trus
 - Chainlink Automation, so the payment release after the one-day window and the delivery deadline happens on its own, without anyone needing to trigger it manually.
 - A stronger version of delivery confirmation using real ID verification, not just a manual confirmation.
 
-## Project Status
-I am currently learning the basics of blockchain and haven't reached the part where I can code yet. Once I finish the basics and move into Solidity, I will start building this for real, starting with the smart contract backend. This README is the design I've worked out first, before writing any code.
