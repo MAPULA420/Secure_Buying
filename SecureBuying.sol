@@ -1,22 +1,26 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
-// My fist code for  Secure_Buying —
-// it stores the buyer and seller's addresses,
-// and how much the buyer is paying.
 
 contract Secure_Buying{
+  struct User { //when a user is registering on the app they need to comfirm that they ae using their id
+    address userAddress;
+    uint userIdNumber;
+    bool validId;
+    string fullNames;
+}
+
+struct Transaction {//when the buyer and seller are actually exchanging parcels
     address buyer;
     address seller;
     uint amount;
-    
-    function buyerAdress() public view returns(address){
-        return buyer;
-    }
-    function sellerAdress() public view returns(address){
-        return seller;
-    }
-    function amounT() public view returns(uint){
-        return amount;
-    }
+    uint deliveryfee;
+    uint paymentTimestamp;
+    bool itemPhotoConfirmed;
+    uint deliveryDateConfirmation;
+    bool damageReport;
+    bool returnedParcel;
+    bool sellerPayment;
+    bool buyerRefund;
+}
 }
