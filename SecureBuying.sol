@@ -23,4 +23,6 @@ struct Transaction {//when the buyer and seller are actually exchanging parcels
     bool sellerPayment;
     bool buyerRefund;
 }
+mapping(address => User) public users; 
+mapping(uint => Transaction) public transactions;
 }
