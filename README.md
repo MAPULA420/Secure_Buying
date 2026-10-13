@@ -1,28 +1,25 @@
 # Secure_Buying
 
-## Problem Statement
-Sellers and customers on TikTok and Facebook meet scams daily. A customer can pay for a good and that good never gets delivered. A seller can sell and the customer claims they didn't receive the product while they did, ruining the seller's reputation. A seller can send the wrong good and get away with it. And a customer can send fake proof of payment.
+Sellers and customers on TikTok and Facebook meet scams daily. A customer can pay and never get the good. A customer can claim they didn't receive a product they did get, ruining the seller's reputation. A seller can send the wrong good. And a customer can send fake proof of payment.
 
-So my system is designed to help both sides using a smart contract.
+Secure_Buying protects both sides by holding the payment in the app until the deal is done.
 
 ## How It Works
 
-There will be an app where when a seller and customer want to exchange goods, they both register with their ID. Before shipping, the seller takes a photo of the exact item and the buyer confirms it's the right product. Instead of the seller getting money directly from the customer, the customer transfers money to the app directly. Once the payment is confirmed by the app, the seller can proceed with sending the delivery. If the customer hasn't paid, no order is sent at all.
+1. Seller and customer register with their ID.
+2. The seller photographs the exact item and the buyer confirms it's the right product.
+3. The customer pays the app, not the seller. No payment means no order is sent.
+4. If the product isn't delivered and confirmed within 7 days of payment, the customer is refunded automatically.
+5. When the product arrives, the buyer scans their ID to confirm receipt. This starts a one-day window to check for damage.
+6. If nothing is reported in that day, the seller gets paid.
+7. The seller pays the delivery fee upfront and gets it back when they're paid.
+8. If the product arrives damaged, the customer gets a full refund once the seller confirms the product is returned. "Wrong product" claims don't apply, because the buyer approved the photo before shipping.
+9. A change of mind is not covered. That's the seller's business.
 
-If the seller doesn't get the product delivered and confirmed within 7 days of payment, the contract automatically refunds the customer — no one needs to report anything, the system enforces this on its own.
+## Built With
 
-As soon as the delivery guy hands over the product, the buyer scans their ID on the spot to notify the app that the product has been received. This starts a one-day window for the buyer to check for any damage. If nothing is reported within that day, the seller gets paid.
+Java and AWS (S3 for photos, DynamoDB for users and transactions). This is a proof of concept, and payment is simulated.
 
-Normally a customer covers the delivery fee, but since the money sits in the app, the seller has to use their own money to deliver, and they get it back once they're paid.
+## Where It Started
 
-If the product arrives damaged, the customer won't have to pay for anything and gets a full refund of their money, but only after the damaged product has been returned and the seller confirms they've received it back. Since the buyer already confirmed the item's photo before it shipped, a claim of "wrong product" doesn't apply — only genuine damage that happened after that confirmation.
-
-If it's just the customer changing their mind, that's not covered — that's the seller's business, not a fault in the product.
-
-## Why Blockchain
-I designed this so that neither side has to just trust the other person, or trust me as the person who built the app. To come up with this idea, I used a principle of smart contracts called trust-minimized — where the money sits in the contract, not with either person, and it only moves when the conditions are actually met. I was also inspired by Chainlink Automation, where actions only happen once certain requirements are met, without anyone needing to trigger it manually. Since this is a decentralized application, both the buyer and the seller can see the transaction — no one is kept in the dark or has to just take the other person's word for it.
-
-## Future Features
-- Chainlink Automation, so the payment release after the one-day window and the delivery deadline happens on its own, without anyone needing to trigger it manually.
-- A stronger version of delivery confirmation using real ID verification, not just a manual confirmation.
-
+This project began as a Solidity smart contract, which is in the `contracts/` folder. I then rebuilt it on AWS for the Cloud Computing elective.
