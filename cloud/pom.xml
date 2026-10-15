@@ -49,7 +49,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.5.0</version>
                 <configuration>
-                    <mainClass>ListBuckets</mainClass>
+                  <mainClass>PhotoUploader</mainClass>
                 </configuration>
             </plugin>
         </plugins>
