@@ -1,0 +1,2 @@
+# Creates the DynamoDB table for Secure_Buying transactions (us-east-1)
+aws dynamodb create-table --table-name Transactions --attribute-definitions AttributeName=transactionId,AttributeType=S --key-schema AttributeName=transactionId,KeyType=HASH --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 --region us-east-1
