@@ -13,6 +13,7 @@ public class Transaction {
     private Long deliveredAt;         // epoch seconds, starts the 1-day window
     private boolean damageReported;
     private String damagePhotoKey;
+    private String deliveryConfirmedBy;   // BUYER or COURIER
 
     public Transaction(String transactionId, String buyerId, String sellerId,
                        long amountCents, long deliveryFeeCents) {
@@ -48,5 +49,8 @@ public class Transaction {
     public void setDamageReported(boolean damageReported) { this.damageReported = damageReported; }
 
     public String getDamagePhotoKey() { return damagePhotoKey; }
+
+    public String getDeliveryConfirmedBy() { return deliveryConfirmedBy; }
+    public void setDeliveryConfirmedBy(String deliveryConfirmedBy) { this.deliveryConfirmedBy = deliveryConfirmedBy; }
     public void setDamagePhotoKey(String damagePhotoKey) { this.damagePhotoKey = damagePhotoKey; }
 }

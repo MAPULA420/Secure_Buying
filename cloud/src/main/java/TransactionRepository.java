@@ -34,6 +34,7 @@ public class TransactionRepository implements AutoCloseable {
         if (t.getPaidAt() != null) item.put("paidAt", num(t.getPaidAt()));
         if (t.getDeliveredAt() != null) item.put("deliveredAt", num(t.getDeliveredAt()));
         if (t.getDamagePhotoKey() != null) item.put("damagePhotoKey", str(t.getDamagePhotoKey()));
+        if (t.getDeliveryConfirmedBy() != null) item.put("deliveryConfirmedBy", str(t.getDeliveryConfirmedBy()));
 
         db.putItem(PutItemRequest.builder().tableName(TABLE_NAME).item(item).build());
     }
@@ -63,6 +64,7 @@ public class TransactionRepository implements AutoCloseable {
         if (i.containsKey("paidAt")) t.setPaidAt(Long.parseLong(i.get("paidAt").n()));
         if (i.containsKey("deliveredAt")) t.setDeliveredAt(Long.parseLong(i.get("deliveredAt").n()));
         if (i.containsKey("damagePhotoKey")) t.setDamagePhotoKey(i.get("damagePhotoKey").s());
+        if (i.containsKey("deliveryConfirmedBy")) t.setDeliveryConfirmedBy(i.get("deliveryConfirmedBy").s());
         return t;
     }
 
