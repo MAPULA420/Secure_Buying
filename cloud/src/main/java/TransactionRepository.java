@@ -4,8 +4,11 @@ import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
+import software.amazon.awssdk.services.dynamodb.model.ScanRequest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TransactionRepository implements AutoCloseable {
@@ -66,6 +69,19 @@ public class TransactionRepository implements AutoCloseable {
         if (i.containsKey("damagePhotoKey")) t.setDamagePhotoKey(i.get("damagePhotoKey").s());
         if (i.containsKey("deliveryConfirmedBy")) t.setDeliveryConfirmedBy(i.get("deliveryConfirmedBy").s());
         return t;
+    }
+
+    // Ids of all transactions currently in the given status
+    public List<String> findIdsByStatus(TransactionStatus status) {
+        ScanRequest request = ScanRequest.builder()
+                .tableName(TABLE_NAME)
+                .filterExpression("#s = :s")
+                .expressionAttributeNames(Map.of("#s", "status"))
+                .expressionAttributeValues(Map.of(":s", str(status.name())))
+                .build();
+        List<String> ids = new ArrayList<>();
+        db.scanPaginator(request).items().forEach(item -> ids.add(item.get("transactionId").s()));
+        return ids;
     }
 
     private static AttributeValue str(String value) {
