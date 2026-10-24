@@ -6,11 +6,11 @@ Secure_Buying protects both sides by holding the payment in the app until the de
 
 ## How It Works
 
-1. Seller and customer register with their ID.
+1. Seller and customer register. The ID check is simulated, and ID numbers are never stored.
 2. The seller photographs the exact item and the buyer confirms it's the right product.
 3. The customer pays the app, not the seller. No payment means no order is sent.
 4. If the product isn't delivered and confirmed within 7 days of payment, the customer is refunded automatically.
-5. When the product arrives, the buyer scans their ID to confirm receipt. This starts a one-day window to check for damage.
+5. When the product arrives, the buyer or the courier confirms receipt. This starts a one-day window to check for damage.
 6. If nothing is reported in that day, the seller gets paid.
 7. The seller pays the delivery fee upfront and gets it back when they're paid.
 8. If the product arrives damaged, the customer gets a full refund once the seller confirms the product is returned. "Wrong product" claims don't apply, because the buyer approved the photo before shipping.
@@ -18,7 +18,7 @@ Secure_Buying protects both sides by holding the payment in the app until the de
 
 ## Built With
 
-Java and AWS. S3 stores the photos, and DynamoDB will store users and transactions. This is a proof of concept, and payment is simulated.
+Java and AWS. S3 stores the photos, and DynamoDB stores the users and transactions. This is a proof of concept, and payment is simulated.
 
 ## Where It Started
 
@@ -27,11 +27,16 @@ This project began as a Solidity smart contract, which is in the `contracts/` fo
 ## Status
 
 Done:
+
 - S3 bucket with versioning on and public access blocked
 - `PhotoUploader` uploads, hashes, and downloads photos
+- DynamoDB `Transactions` table, with code that saves and loads orders
+- DynamoDB `Users` table, with a `User` model and repository
+- Order logic: photo confirmation, payment, delivery (confirmed by the buyer or the courier), damage window, and refunds
+- Demo programs that run each part against real AWS (`OrderFlowDemo`, `UserDemo`, `TransactionDemo`)
 
-Still to do:
-- DynamoDB tables for users and transactions
-- Order logic: photo confirmation, payment, delivery, damage window
-- Automatic 7-day refund
-- API and login
+Not built yet:
+
+- Login and an API
+- Running the 7-day refund automatically on a schedule. The rule exists and `OrderFlowDemo` shows it working, but nothing triggers it by itself yet.
+
