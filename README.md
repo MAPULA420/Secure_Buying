@@ -26,6 +26,8 @@ This project began as a Solidity smart contract, which is in the `contracts/` fo
 
 ## Status
 
+## Status
+
 Done:
 
 - S3 bucket with versioning on and public access blocked
@@ -33,10 +35,10 @@ Done:
 - DynamoDB `Transactions` table, with code that saves and loads orders
 - DynamoDB `Users` table, with a `User` model and repository
 - Order logic: photo confirmation, payment, delivery (confirmed by the buyer or the courier), damage window, and refunds
-- Demo programs that run each part against real AWS (`OrderFlowDemo`, `UserDemo`, `TransactionDemo`)
+- 7-day refund sweeper (`RefundSweeper`): finds paid orders past the deadline and refunds them. It runs by hand, and `SweeperDemo` shows it working.
+- Demo programs that run each part against real AWS (`OrderFlowDemo`, `UserDemo`, `TransactionDemo`, `SweeperDemo`)
 
 Not built yet:
 
+- Running the sweeper automatically on a schedule
 - Login and an API
-- Running the 7-day refund automatically on a schedule. The rule exists and `OrderFlowDemo` shows it working, but nothing triggers it by itself yet.
-
