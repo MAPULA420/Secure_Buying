@@ -14,6 +14,7 @@ public class Transaction {
     private boolean damageReported;
     private String damagePhotoKey;
     private String deliveryConfirmedBy;   // BUYER or COURIER
+    private Long shippedAt;                // epoch seconds, set when the seller ships
 
     public Transaction(String transactionId, String buyerId, String sellerId,
                        long amountCents, long deliveryFeeCents) {
@@ -52,5 +53,8 @@ public class Transaction {
 
     public String getDeliveryConfirmedBy() { return deliveryConfirmedBy; }
     public void setDeliveryConfirmedBy(String deliveryConfirmedBy) { this.deliveryConfirmedBy = deliveryConfirmedBy; }
+
+    public Long getShippedAt() { return shippedAt; }
+    public void setShippedAt(Long shippedAt) { this.shippedAt = shippedAt; }
     public void setDamagePhotoKey(String damagePhotoKey) { this.damagePhotoKey = damagePhotoKey; }
 }
