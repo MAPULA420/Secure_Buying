@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class RefundSweeper {
 
     private final TransactionRepository repo;
@@ -8,10 +11,12 @@ public class RefundSweeper {
         this.service = service;
     }
 
-    // Refunds every paid order whose 7-day delivery deadline has passed
+    // Refunds every paid or shipped order whose 7-day delivery deadline has passed
     public int run() {
+        List<String> ids = new ArrayList<>(repo.findIdsByStatus(TransactionStatus.PAID));
+        ids.addAll(repo.findIdsByStatus(TransactionStatus.SHIPPED));
         int refunded = 0;
-        for (String id : repo.findIdsByStatus(TransactionStatus.PAID)) {
+        for (String id : ids) {
             try {
                 service.refundNonDelivery(id);
                 System.out.println("  Refunded " + id);
