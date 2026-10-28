@@ -2,60 +2,43 @@
 
 Sellers and customers on TikTok and Facebook meet scams daily. A customer can pay and never get the item. A customer can say they didn't receive a product they did get, and ruin the seller's reputation. A seller can send the wrong item. And a customer can send fake proof of payment.
 
-## How the App Solves It
+Secure_Buying protects both sides by holding the payment in the app until the deal is done.
 
-Secure_Buying protects both sides by holding the payment in the app until the deal is done. The buyer and seller move their deal from TikTok or Facebook into the app, where both prove who they are with an ID and a face scan. The seller photographs the exact item, so the buyer can confirm that it is the right product, so a "wrong product" claim can't happen later. The buyer then pays the app, not the seller, and both can see that the money is held.
+## How It Works
 
-When the seller ships, her ID is scanned at the courier and the order is marked as shipped, so both sides can track it. At handover, the courier scans the buyer's ID, and the app checks that it belongs to the person who bought the item. This starts a one-day window to report a fault. If nothing is reported, the seller is paid. If the item doesn't work or isn't as shown, the buyer sends it back and is refunded once the seller confirms she received it. If nothing is delivered within 7 days of payment, the buyer is refunded automatically. A change of mind is not covered, because that is the seller's business.
+1. Seller and customer register. The ID check is simulated, and ID numbers are never stored.
+2. The seller photographs the exact item and the buyer confirms it's the right product.
+3. The customer pays the app, not the seller. No payment means no order is sent.
+4. If the product isn't delivered and confirmed within 7 days of payment, the customer is refunded automatically.
+5. When the product arrives, the buyer or the courier confirms receipt. This starts a one-day window to check for damage.
+6. If nothing is reported in that day, the seller gets paid.
+7. The seller pays the delivery fee upfront and gets it back when they're paid.
+8. If the product arrives damaged, the customer gets a full refund once the seller confirms the product is returned. "Wrong product" claims don't apply, because the buyer approved the photo before shipping.
+9. A change of mind is not covered. That's the seller's business.
 
-This is a proof of concept built with Java and AWS (S3 for photos, DynamoDB for orders and users). Payment, ID checks and face scans are simulated, and there are no app screens yet. The demo programs run the order logic against real AWS.
+## Built With
 
-## Future Features
+Java and AWS. S3 stores the photos, and DynamoDB stores the users and transactions. This is a proof of concept, and payment is simulated.
 
-- Chat inside the app, with photos sent through it
-- Real ID and face checks, for example with AWS Textract and Rekognition
-- A login, an API and app screens, so buyer and seller can track an order themselves
-- Running the refund sweeper automatically on a schedule
-- Connecting the app to the Solidity contract in `contracts/`, with Chainlink Automation, so the money is held on a blockchain
+## Where It Started
 
-## How to Run
+This project began as a Solidity smart contract, which is in the `contracts/` folder. I then rebuilt it on AWS for the Cloud Computing elective.
 
-You need Java 17 or newer, Maven, and an AWS account with the AWS CLI set up (`aws configure`, region `us-east-1`). Your AWS user needs access to S3 and DynamoDB.
+## Status
 
-1. Create an S3 bucket for the photos (the name must be unique), block public access, and turn on versioning:
+## Status
 
-```
-aws s3api create-bucket --bucket YOUR-BUCKET-NAME --region us-east-1
-aws s3api put-public-access-block --bucket YOUR-BUCKET-NAME --public-access-block-configuration BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true
-aws s3api put-bucket-versioning --bucket YOUR-BUCKET-NAME --versioning-configuration Status=Enabled
-```
+Done:
 
-2. Create the two DynamoDB tables:
+- S3 bucket with versioning on and public access blocked
+- `PhotoUploader` uploads, hashes, and downloads photos
+- DynamoDB `Transactions` table, with code that saves and loads orders
+- DynamoDB `Users` table, with a `User` model and repository
+- Order logic: photo confirmation, payment, delivery (confirmed by the buyer or the courier), damage window, and refunds
+- 7-day refund sweeper (`RefundSweeper`): finds paid orders past the deadline and refunds them. It runs by hand, and `SweeperDemo` shows it working.
+- Demo programs that run each part against real AWS (`OrderFlowDemo`, `UserDemo`, `TransactionDemo`, `SweeperDemo`)
 
-```
-aws dynamodb create-table --table-name Transactions --attribute-definitions AttributeName=transactionId,AttributeType=S --key-schema AttributeName=transactionId,KeyType=HASH --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 --region us-east-1
-aws dynamodb create-table --table-name Users --attribute-definitions AttributeName=userId,AttributeType=S --key-schema AttributeName=userId,KeyType=HASH --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 --region us-east-1
-```
+Not built yet:
 
-3. Put a JPG called `test.jpg` in the `cloud` folder, and tell the program your bucket name:
-
-```
-$env:PHOTO_BUCKET = "YOUR-BUCKET-NAME"     # PowerShell
-export PHOTO_BUCKET=YOUR-BUCKET-NAME       # Linux or Mac
-```
-
-4. Build and run the demos from the `cloud` folder (in PowerShell, keep the quotes around the `-D` option):
-
-```
-cd cloud
-mvn clean compile
-mvn exec:java
-mvn exec:java "-Dmain.class=UserDemo"
-mvn exec:java "-Dmain.class=OrderFlowDemo"
-mvn exec:java "-Dmain.class=SweeperDemo"
-```
-
-- `mvn exec:java` uploads `test.jpg` to S3, prints its SHA-256 hash, and downloads it back as `downloaded.jpg`.
-- `UserDemo` registers a buyer, a seller and a courier.
-- `OrderFlowDemo` runs three order scenarios (happy path, never delivered, damaged or faulty item) with a fake clock, so seven days pass instantly.
-- `SweeperDemo` shows the 7-day refund sweeper refunding overdue orders.
+- Running the sweeper automatically on a schedule
+- Login and an API
