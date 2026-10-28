@@ -21,14 +21,13 @@ public class OrderFlowDemo {
             show(service.releasePayment("demo-happy"));
             expectFailure("damage report after payout", () -> service.reportDamage("demo-happy", "buyer-1", "x.jpg"));
 
-            System.out.println("--- Scenario 2: shipped but never delivered ---");
+            System.out.println("--- Scenario 2: paid but never shipped ---");
             service.createOrder("demo-late", "buyer-1", "seller-1", 5000, 2000);
             service.confirmItem("demo-late", "buyer-1", "transactions/2/item.jpg", "hash456");
-            service.pay("demo-late", "buyer-1");
-            show(service.markShipped("demo-late", "seller-1"));
+            show(service.pay("demo-late", "buyer-1"));
             expectFailure("refund too early", () -> service.refundNonDelivery("demo-late"));
             now[0] += 7 * DAY + 1;
-            expectFailure("delivery after the deadline", () -> service.confirmDelivery("demo-late", "buyer-1"));
+            expectFailure("shipping after the deadline", () -> service.markShipped("demo-late", "seller-1"));
             show(service.refundNonDelivery("demo-late"));
 
             System.out.println("--- Scenario 3: damaged item ---");

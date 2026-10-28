@@ -73,9 +73,7 @@ public class TransactionService {
         Transaction t = load(id);
         requireStatus(t, TransactionStatus.SHIPPED);
         long now = clock.getAsLong();
-        if (now > t.getPaidAt() + DELIVERY_DEADLINE_SECONDS) {
-            throw new IllegalStateException("The 7-day delivery deadline has passed, the buyer is due a refund");
-        }
+       
         if (!t.getBuyerId().equals(scannedBuyerId)) {
             throw new IllegalStateException("The scanned ID is not the buyer's, the parcel is not handed over");
         }
@@ -117,10 +115,7 @@ public class TransactionService {
     // whether or not the seller shipped
     public Transaction refundNonDelivery(String id) {
         Transaction t = load(id);
-        if (t.getStatus() != TransactionStatus.PAID && t.getStatus() != TransactionStatus.SHIPPED) {
-            throw new IllegalStateException("Transaction " + t.getTransactionId()
-                    + " is " + t.getStatus() + ", expected PAID or SHIPPED");
-        }
+       requireStatus(t, TransactionStatus.PAID);
         if (clock.getAsLong() <= t.getPaidAt() + DELIVERY_DEADLINE_SECONDS) {
             throw new IllegalStateException("The 7-day delivery deadline has not passed yet");
         }

@@ -14,7 +14,7 @@ public class RefundSweeper {
     // Refunds every paid or shipped order whose 7-day delivery deadline has passed
     public int run() {
         List<String> ids = new ArrayList<>(repo.findIdsByStatus(TransactionStatus.PAID));
-        ids.addAll(repo.findIdsByStatus(TransactionStatus.SHIPPED));
+       
         int refunded = 0;
         for (String id : ids) {
             try {
