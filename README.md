@@ -35,7 +35,7 @@ Done:
 - 7-day refund sweeper (`RefundSweeper`): finds paid and shipped orders past the deadline and refunds them. It runs by hand, and `SweeperDemo` shows it working.
 - Demo programs that run each part against real AWS (`OrderFlowDemo`, `UserDemo`, `TransactionDemo`, `SweeperDemo`)
 
-Not built yet:
+Next steps:
 
 - Delivery fee: the amount is stored on each order, but the seller paying it upfront and getting it back is not handled yet
 - Running the sweeper automatically on a schedule
