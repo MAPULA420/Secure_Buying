@@ -1,3 +1,4 @@
+Verification code: WTC-N3883CSS
 # Secure_Buying
 
 Sellers and customers on TikTok and Facebook meet scams daily. A customer can pay and never get the item. A customer can say they didn't receive a product they did get, and ruin the seller's reputation. A seller can send the wrong item. And a customer can send fake proof of payment.
